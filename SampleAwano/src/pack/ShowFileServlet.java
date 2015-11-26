@@ -21,18 +21,18 @@ import javax.servlet.http.HttpSession;
 public class ShowFileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ShowFileServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public ShowFileServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
@@ -46,9 +46,12 @@ public class ShowFileServlet extends HttpServlet {
 		String filename = request.getParameter("showFile");
 		LinkedList<ConnectBean> list = new LinkedList<ConnectBean>();
 		String line = "tes";
+//		String test = null;
+
 
 		try{
 			BufferedReader reader = new BufferedReader(new FileReader(filename));
+//			test.toString();
 
 			while((line = reader.readLine()) != null){
 				ConnectBean cbean = new ConnectBean();
@@ -65,11 +68,13 @@ public class ShowFileServlet extends HttpServlet {
 		}catch(IOException e){
 			System.out.println(e);
 		}
+		ConnectBean cbean = new ConnectBean();
+//		System.out.println(cbean.getFile());
 		System.out.println(list);
 		HttpSession session = request.getSession();
 		session.setAttribute("list", list);
-		 RequestDispatcher rd = request.getRequestDispatcher("./ShowFile2.jsp");
-		  rd.forward(request, response);
+		RequestDispatcher rd = request.getRequestDispatcher("./ShowFile2.jsp");
+		rd.forward(request, response);
 
 	}
 
