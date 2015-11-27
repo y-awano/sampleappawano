@@ -4,8 +4,6 @@
 <%@ page import="java.io.IOException"%>
 <%@ page import="java.sql.*"%>
 
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -44,35 +42,41 @@
 <form method="post" action="ShowRegisteredFile">
 <select name="registeredFile">
  <%
+ Connection conn = null;
+ Statement st = null;
 	try {
 		Class.forName("org.postgresql.Driver");
-	} catch (ClassNotFoundException e) {
-		e.printStackTrace();
-	}
-
-	//DBコネクションとsql
- 	String url = "jdbc:postgresql://localhost/sample";
-	Properties props = new Properties();
-	props.setProperty("user","postgres");
-	props.setProperty("password","root");
-
-	try {
-		Connection conn = DriverManager.getConnection(url, props);
-		String sql = "select file_name from showfile;";
-		Statement st = conn.createStatement();
+ 		String url = "jdbc:postgresql://localhost/sample";
+		Properties props = new Properties();
+		props.setProperty("user","postgres");
+		props.setProperty("password","root");
+		conn = DriverManager.getConnection(url, props);
+		st = conn.createStatement();
+		String sql = "select file_name from showfile";
 		ResultSet rs = st.executeQuery(sql);
 
 		while (rs.next()) {
 		       String s0 = rs.getString("file_name");
 		    // <option> の後ろにsqlの結果を出力
 		       out.println("<option>" + s0);
-		       System.out.println(s0);
+			   System.out.println(s0);
 		}
 		rs.close();
 		st.close();
+		conn.close();
 
+	} catch (ClassNotFoundException e) {
+		e.printStackTrace();
 	} catch (SQLException e) {
 		e.printStackTrace();
+	} finally {
+		  // 保険用
+		  if(st !=null && !st.isClosed()) {
+		    st.close();
+		  }
+		  if(conn !=null && !conn.isClosed()) {
+		    conn.close();
+		  }
 	}
 %>
 </select>

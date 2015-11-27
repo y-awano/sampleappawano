@@ -1,3 +1,5 @@
 eclipse.preferences.version=1
 encoding//WebContent/FileRegistered.jsp=ISO-8859-1
+encoding//WebContent/WEB-INF=windows-31j
+encoding//src/pack=windows-31j
 encoding//src/pack/FileRegisterServlet.java=windows-31j

@@ -26,14 +26,12 @@ public class ShowFileServlet extends HttpServlet {
 	 */
 	public ShowFileServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -41,17 +39,13 @@ public class ShowFileServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		request.setCharacterEncoding("Windows-31J");
 		String filename = request.getParameter("showFile");
 		LinkedList<ConnectBean> list = new LinkedList<ConnectBean>();
 		String line = "tes";
-//		String test = null;
-
 
 		try{
 			BufferedReader reader = new BufferedReader(new FileReader(filename));
-//			test.toString();
 
 			while((line = reader.readLine()) != null){
 				ConnectBean cbean = new ConnectBean();
@@ -59,23 +53,20 @@ public class ShowFileServlet extends HttpServlet {
 				list.add(cbean);
 			}
 			reader.close();
+
 		}catch(FileNotFoundException e){
 			ConnectBean cbean = new ConnectBean();
+			e.printStackTrace();
 			line = filename + "Ç™å©Ç¬Ç©ÇËÇ‹ÇπÇÒÅB";
 			cbean.setFile(line);
 			list.add(cbean);
-			System.out.println(filename + "Ç™å©Ç¬Ç©ÇËÇ‹ÇπÇÒÅB");
 		}catch(IOException e){
-			System.out.println(e);
+			e.printStackTrace();
 		}
-		ConnectBean cbean = new ConnectBean();
-//		System.out.println(cbean.getFile());
-		System.out.println(list);
+
 		HttpSession session = request.getSession();
 		session.setAttribute("list", list);
 		RequestDispatcher rd = request.getRequestDispatcher("./ShowFile2.jsp");
 		rd.forward(request, response);
-
 	}
-
 }
