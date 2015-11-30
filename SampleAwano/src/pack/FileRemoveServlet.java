@@ -16,17 +16,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * DBに登録したファイルの内容を表示するクラスです。
+ * DBに登録した内容を論理削除するクラスです。
  * @author USER0223 awano
  */
-@WebServlet(name = "ShowRegisteredFile", urlPatterns = { "/ShowRegisteredFile" })
-public class ShowRegisteredFileServlet extends HttpServlet {
+@WebServlet(name = "FileRemove", urlPatterns = { "/FileRemove" })
+public class FileRemoveServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShowRegisteredFileServlet() {
+    public FileRemoveServlet() {
         super();
     }
 
@@ -38,20 +38,20 @@ public class ShowRegisteredFileServlet extends HttpServlet {
     }
 
     /**
-     * DBに登録したファイルの内容を表示するクラスです。
+     * DBに登録した内容を論理削除するメソッドです。
      * @param filename 選択したファイルのパスが入っています。(registeredFile)
-     * @return contents 読み込んだファイルの内容が入っているリストです。
+     * @return
      * @throws ServletException 実行時に起こり得る例外
      * @throws IOException ファイル入出力時に起こり得る例外
      * @throws ClassNotFoundException クラスが見つからなかった時に起こる例外
      * @throws SQLException SQL実行時に起こり得る例外
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         request.setCharacterEncoding("Windows-31J");
-        String filename = request.getParameter("registeredFile");
-        String err = " ";
+        String filename = request.getParameter("removeFile");
+        String err =" ";
         String contents = null;
+
 
         try {
             Class.forName("org.postgresql.Driver");
@@ -60,14 +60,11 @@ public class ShowRegisteredFileServlet extends HttpServlet {
             props.setProperty("user","postgres");
             props.setProperty("password","root");
             Connection conn = DriverManager.getConnection(url, props);
-            String sql = "select file_contents from showfile where file_name = ?";
+            String sql = "update showfile set remove_flag = false where file_name = ?;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, filename);
             ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                contents = rs.getString("file_contents");
-            }
+            contents = filename + "　を削除しました";
             rs.close();
             pstmt.close();
             conn.close();
@@ -77,7 +74,7 @@ public class ShowRegisteredFileServlet extends HttpServlet {
             contents = "DBに接続できません";
         } catch(SQLException e) {
             e.printStackTrace();
-            contents = "error";
+            contents = "miss";
         }
 
         request.setAttribute("contents", contents);
@@ -85,3 +82,4 @@ public class ShowRegisteredFileServlet extends HttpServlet {
         rd.forward(request, response);
     }
 }
+

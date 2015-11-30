@@ -2,25 +2,29 @@ package pack;
 
 import java.io.*;
 
+/**
+ * ファイルを読み込んで出力するクラスです。
+ * @author USER0223
+ */
 public class ShowFile1{
 public static void main(String[] args){
-		if(args.length != 1){
-			System.out.println("使用法");
-			System.out.println("例");
-			System.exit(0);
-		}
-		String filename = args[0];
-		try{
-			BufferedReader reader = new BufferedReader(new FileReader(filename));
-			String line;
-			while((line = reader.readLine()) != null){
-				System.out.println(line);
-			}
-			reader.close();
-		}catch(FileNotFoundException e){
-			System.out.println(filename + "が見つかりません。");
-		}catch(IOException e){
-			System.out.println(e);
-		}
-	}
+        if (args.length != 1) {
+            System.out.println("使用法");
+            System.out.println("例");
+            System.exit(0);
+        }
+        String filename = args[0];
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            reader.close();
+        } catch(FileNotFoundException e) {
+            System.out.println(filename + "が見つかりません。");
+        } catch(IOException e) {
+            System.out.println(e);
+        }
+    }
 }

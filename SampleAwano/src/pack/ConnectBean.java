@@ -1,94 +1,83 @@
 package pack;
 
 /**
- * サンプルwebアプリ用bean
+ * ファイル入出力webアプリ(サンプル)用bean
  * @author AWANO
- *
  */
-
 public class ConnectBean {
-	/**
-	 * ファイル内容
-	 */
-	private String file;
+    /**ファイルのパス*/
+    private String file;
 
-	/**
-	 * ID(csvファイルを想定)
-	 */
-	private String id;
+    /**ID(csv用サンプル)*/
+    private String id;
 
-	/**
-	 * 名前(csvファイルを想定)
-	 */
-	private String name;
+    /**名前(csv用サンプル)*/
+    private String name;
 
-	/**
-	 * ナンバー(csvファイルを想定)
-	 */
-	private String number;
+    /**ナンバー(csv用サンプル)*/
+    private String number;
 
+    /**
+     * ファイル内容の取得
+     * @return file
+     */
+    public String getFile() {
+        return this.file;
+    }
 
-	/**
-	 * ファイル内容の設定
-	 * @param file
-	 */
-	public void setFile(String file) {
-		this.file = file;
-	}
-	/**
-	 * ファイル内容の取得
-	 * @return
-	 */
+    /**
+     * ファイル内容の設定
+     * @param file
+     */
+    public void setFile(String file) {
+        this.file = file;
+    }
 
-	public String getFile() {
-		return this.file;
-	}
+    /**
+     * IDの取得
+     * @return　id
+     */
+    public String getId() {
+        return id;
+    }
 
-	/**
-	 * IDの取得
-	 * @return
-	 */
-	public String getId() {
-		return id;
-	}
+    /**
+     * IDの設定
+     * @param id
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	/**
-	 * IDの設定
-	 * @param file
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
+    /**
+     * 名前の取得
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * 名前の取得
-	 * @return
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * 名前の設定
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	/**
-	 * 名前の設定
-	 * @param file
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * ナンバーの取得
+     * @return number
+     */
+    public String getNumber() {
+        return number;
+    }
 
-	/**
-	 * ナンバーの取得
-	 * @return
-	 */
-	public String getNumber() {
-		return number;
-	}
-
-	/**
-	 * ナンバーの設定
-	 * @param file
-	 */
-	public void setNumber(String number) {
-		this.number = number;
-	}
+    /**
+     * ナンバーの設定
+     * @param number
+     */
+    public void setNumber(String number) {
+        this.number = number;
+    }
 }

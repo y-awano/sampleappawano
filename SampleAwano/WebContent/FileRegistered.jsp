@@ -8,7 +8,7 @@ pageEncoding="Windows-31J" >
 <title>Insert title here</title>
 </head>
 <body>
-<%= request.getAttribute("error")%>
+  <%= request.getAttribute("error")%>
 <br>
 <a href="ShowFile1.jsp">
 back

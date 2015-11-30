@@ -17,11 +17,11 @@ LinkedList<ConnectBean> msgList =  (LinkedList<ConnectBean>)session.getAttribute
 <%
 for (ConnectBean temp: msgList) {
 %>
-	<tr>
-		<td>
-			<% out.println(temp.getFile());%>
-		</td>
-	</tr>
+  <tr>
+    <td>
+      <% out.println(temp.getFile());%>
+    </td>
+  </tr>
 <%
 }
 %>

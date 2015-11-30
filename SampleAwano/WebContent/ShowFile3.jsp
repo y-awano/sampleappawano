@@ -22,17 +22,17 @@ LinkedList<ConnectBean> msgList =  (LinkedList<ConnectBean>)session.getAttribute
 <%
 for (ConnectBean temp: msgList) {
 %>
-	<tr>
-		<td>
-			<% out.println(temp.getId());%>
-		</td>
-		<td>
-			<% out.println(temp.getName());%>
-		</td>
-		<td>
-			<% out.println(temp.getNumber());%>
-		</td>
-	</tr>
+  <tr>
+    <td>
+      <% out.println(temp.getId());%>
+    </td>
+    <td>
+      <% out.println(temp.getName());%>
+    </td>
+    <td>
+      <% out.println(temp.getNumber());%>
+    </td>
+  </tr>
 <%
 }
 %>

@@ -41,46 +41,87 @@
 <p>表示させるファイルを選択してください</p>
 <form method="post" action="ShowRegisteredFile">
 <select name="registeredFile">
- <%
- Connection conn = null;
- Statement st = null;
-	try {
-		Class.forName("org.postgresql.Driver");
- 		String url = "jdbc:postgresql://localhost/sample";
-		Properties props = new Properties();
-		props.setProperty("user","postgres");
-		props.setProperty("password","root");
-		conn = DriverManager.getConnection(url, props);
-		st = conn.createStatement();
-		String sql = "select file_name from showfile";
-		ResultSet rs = st.executeQuery(sql);
+<%
+Connection conn = null;
+Statement st = null;
+  try {
+    Class.forName("org.postgresql.Driver");
+    String url = "jdbc:postgresql://localhost/sample";
+    Properties props = new Properties();
+    props.setProperty("user","postgres");
+    props.setProperty("password","root");
+    conn = DriverManager.getConnection(url, props);
+    st = conn.createStatement();
+    String sql = "select id, file_name from showfile where remove_flag = 'true' order by id asc";
+    ResultSet rs = st.executeQuery(sql);
 
-		while (rs.next()) {
-		       String s0 = rs.getString("file_name");
-		    // <option> の後ろにsqlの結果を出力
-		       out.println("<option>" + s0);
-			   System.out.println(s0);
-		}
-		rs.close();
-		st.close();
-		conn.close();
+    while (rs.next()) {
+      String s0 = rs.getString("file_name");
+      // <option> の後ろにsqlの結果を出力
+      out.println("<option>" + s0);
+    }
+    rs.close();
+    st.close();
+    conn.close();
 
-	} catch (ClassNotFoundException e) {
-		e.printStackTrace();
-	} catch (SQLException e) {
-		e.printStackTrace();
-	} finally {
-		  // 保険用
-		  if(st !=null && !st.isClosed()) {
-		    st.close();
-		  }
-		  if(conn !=null && !conn.isClosed()) {
-		    conn.close();
-		  }
-	}
+    } catch(ClassNotFoundException e) {
+      e.printStackTrace();
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      // 保険用
+    if (st !=null && !st.isClosed()) {
+      st.close();
+    }
+    if (conn !=null && !conn.isClosed()) {
+      conn.close();
+    }
+  }
 %>
 </select>
-<input type="submit" value="実行"><p>
+<input type="submit" value="実行">
+</form>
+
+<p>削除するファイルを選択してください</p>
+<form method="post" action="FileRemove">
+<select name="removeFile">
+<%
+  try {
+    Class.forName("org.postgresql.Driver");
+    String url = "jdbc:postgresql://localhost/sample";
+    Properties props = new Properties();
+    props.setProperty("user","postgres");
+    props.setProperty("password","root");
+    conn = DriverManager.getConnection(url, props);
+    st = conn.createStatement();
+    String sql = "select id, file_name from showfile where remove_flag = 'true' order by id asc";
+    ResultSet rs = st.executeQuery(sql);
+
+    while (rs.next()) {
+      String s1 = rs.getString("file_name");
+      // <option> の後ろにsqlの結果を出力
+      out.println("<option>" + s1);
+    }
+    rs.close();
+    st.close();
+    conn.close();
+
+    } catch(ClassNotFoundException e) {
+      e.printStackTrace();
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      // 保険用
+    if (st !=null && !st.isClosed()) {
+      st.close();
+    }
+    if (conn !=null && !conn.isClosed()) {
+      conn.close();
+    }
+  }
+%>
+</select>
+<input type="submit" value="実行">
 </form>
 </body>
 </html>
