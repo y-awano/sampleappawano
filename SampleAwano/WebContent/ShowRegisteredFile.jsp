@@ -5,7 +5,7 @@ pageEncoding="Windows-31J" %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=Windows-31J"
 pageEncoding="Windows-31J" >
-<title>Insert title here</title>
+<title>登録済みファイル表示画面</title>
 </head>
 <body>
 <%= request.getAttribute("contents")%>

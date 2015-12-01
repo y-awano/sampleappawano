@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * 読み込んだファイルを表示するクラスです。
- * @author USER0223 awano
+ * @author USER0223 AWANO
  */
 @WebServlet(name = "ShowFile", urlPatterns = { "/ShowFile" })
 public class ShowFileServlet extends HttpServlet {
@@ -38,38 +37,45 @@ public class ShowFileServlet extends HttpServlet {
 
     /**
      * 読み込んだファイルを表示するメソッドです。
-     * @param filename 入力されたファイルのパスが入っています。(showFile)
-     * @return list 読み込んだファイルの内容が入っているリストです。
+     * @param request　表示するファイルの絶対パス
+     * @param response
      * @throws ServletException 実行時に起こり得る例外
      * @throws IOException ファイル入出力時に起こり得る例外
-     * @throws FileNotFoundException 指定されたファイルが見つからなかった時に起こる例外
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         request.setCharacterEncoding("Windows-31J");
-        String filename = request.getParameter("showFile");
+        //入力フォームの値をセット
+        String fileName = request.getParameter("showFile");
+        //ファイルを読み込んだ結果
+        String line = null;
+        //ファイルを読み込んだ結果を格納するリストの作成
         LinkedList<ConnectBean> list = new LinkedList<ConnectBean>();
-        String line = "tes";
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            //ファイルの読み込み
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
 
+            //読み込んだ内容をセット
             while ((line = reader.readLine()) != null) {
                 ConnectBean cbean = new ConnectBean();
                 cbean.setFile(line);
                 list.add(cbean);
             }
+
             reader.close();
 
         } catch(FileNotFoundException e) {
             ConnectBean cbean = new ConnectBean();
             e.printStackTrace();
-            line = filename + "が見つかりません。";
+            line = fileName + "が見つかりません。";
             cbean.setFile(line);
             list.add(cbean);
         } catch(IOException e) {
             e.printStackTrace();
         }
 
+        //値を渡してJSP画面に遷移
         HttpSession session = request.getSession();
         session.setAttribute("list", list);
         RequestDispatcher rd = request.getRequestDispatcher("./ShowFile2.jsp");

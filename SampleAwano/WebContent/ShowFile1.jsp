@@ -7,12 +7,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>パス入力フォーム</title>
+<title>入力フォーム</title>
 </head>
 <body>
 
-<p>ファイルのパスを入力してください:</p>
-<form method="post" action="ShowFile">
+<p>ファイルのパスを入力してください</p>
+<form method ="post" action="ShowFile">
 <p>パス: <input type="text" name="showFile" /></p>
 <p>
 <input type="submit" value="実行" >
@@ -20,7 +20,7 @@
 </p>
 </form>
 
-<p>CSVファイルのパスを入力してください:</p>
+<p>CSVファイルのパスを入力してください</p>
 <form method="post" action="ShowCsvFile">
 <p>パス: <input type="text" name="showCsvFile" /></p>
 <p>
@@ -29,7 +29,7 @@
 </p>
 </form>
 
-<p>DBに登録するファイルのパスを入力してください:</p>
+<p>DBに登録するファイルのパスを入力してください</p>
 <form method="post" action="FileRegister">
 <p>パス: <input type="text" name="registerFile" /></p>
 <p>
@@ -45,38 +45,43 @@
 Connection conn = null;
 Statement st = null;
   try {
+  //DBコネクション処理
     Class.forName("org.postgresql.Driver");
     String url = "jdbc:postgresql://localhost/sample";
+
     Properties props = new Properties();
-    props.setProperty("user","postgres");
-    props.setProperty("password","root");
+    props.setProperty("user", "postgres");
+    props.setProperty("password", "root");
     conn = DriverManager.getConnection(url, props);
+
+    //プルダウンに表示する値の参照
     st = conn.createStatement();
     String sql = "select id, file_name from showfile where remove_flag = 'true' order by id asc";
     ResultSet rs = st.executeQuery(sql);
 
+    // <option> の後ろにsqlの結果を出力
     while (rs.next()) {
       String s0 = rs.getString("file_name");
-      // <option> の後ろにsqlの結果を出力
       out.println("<option>" + s0);
     }
+
     rs.close();
     st.close();
     conn.close();
 
-    } catch(ClassNotFoundException e) {
-      e.printStackTrace();
-    } catch(SQLException e) {
-      e.printStackTrace();
-    } finally {
+  } catch(ClassNotFoundException e) {
+    e.printStackTrace();
+  } catch(SQLException e) {
+    e.printStackTrace();
+  } finally {
       // 保険用
-    if (st !=null && !st.isClosed()) {
-      st.close();
-    }
-    if (conn !=null && !conn.isClosed()) {
-      conn.close();
-    }
+  if (st !=null && !st.isClosed()) {
+    st.close();
   }
+  if (conn !=null && !conn.isClosed()) {
+    conn.close();
+  }
+}
 %>
 </select>
 <input type="submit" value="実行">
@@ -87,38 +92,43 @@ Statement st = null;
 <select name="removeFile">
 <%
   try {
+  //DBコネクション処理
     Class.forName("org.postgresql.Driver");
     String url = "jdbc:postgresql://localhost/sample";
+
     Properties props = new Properties();
-    props.setProperty("user","postgres");
-    props.setProperty("password","root");
+    props.setProperty("user", "postgres");
+    props.setProperty("password", "root");
     conn = DriverManager.getConnection(url, props);
+
+    //プルダウンに表示する値の参照
     st = conn.createStatement();
     String sql = "select id, file_name from showfile where remove_flag = 'true' order by id asc";
     ResultSet rs = st.executeQuery(sql);
 
+    // <option> の後ろにsqlの結果を出力
     while (rs.next()) {
       String s1 = rs.getString("file_name");
-      // <option> の後ろにsqlの結果を出力
       out.println("<option>" + s1);
     }
+
     rs.close();
     st.close();
     conn.close();
 
-    } catch(ClassNotFoundException e) {
-      e.printStackTrace();
-    } catch(SQLException e) {
-      e.printStackTrace();
-    } finally {
-      // 保険用
-    if (st !=null && !st.isClosed()) {
-      st.close();
-    }
-    if (conn !=null && !conn.isClosed()) {
-      conn.close();
-    }
+  } catch(ClassNotFoundException e) {
+    e.printStackTrace();
+  } catch(SQLException e) {
+    e.printStackTrace();
+  } finally {
+    // 保険用
+  if (st !=null && !st.isClosed()) {
+    st.close();
   }
+  if (conn !=null && !conn.isClosed()) {
+    conn.close();
+  }
+}
 %>
 </select>
 <input type="submit" value="実行">

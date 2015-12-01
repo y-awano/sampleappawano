@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * DBに登録した内容を論理削除するクラスです。
- * @author USER0223 awano
+ * @author USER0223 AWANO
  */
 @WebServlet(name = "FileRemove", urlPatterns = { "/FileRemove" })
 public class FileRemoveServlet extends HttpServlet {
@@ -39,33 +37,36 @@ public class FileRemoveServlet extends HttpServlet {
 
     /**
      * DBに登録した内容を論理削除するメソッドです。
-     * @param filename 選択したファイルのパスが入っています。(registeredFile)
-     * @return
+     * @param request　DBから論理削除するファイルの絶対パス
+     * @param response
      * @throws ServletException 実行時に起こり得る例外
      * @throws IOException ファイル入出力時に起こり得る例外
-     * @throws ClassNotFoundException クラスが見つからなかった時に起こる例外
-     * @throws SQLException SQL実行時に起こり得る例外
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         request.setCharacterEncoding("Windows-31J");
-        String filename = request.getParameter("removeFile");
-        String err =" ";
+        //入力フォームの値をセット
+        String fileName = request.getParameter("removeFile");
+        //遷移後の画面に表示する値
         String contents = null;
 
-
         try {
+            //DBコネクション処理
             Class.forName("org.postgresql.Driver");
             String url = "jdbc:postgresql://localhost/sample";
+
             Properties props = new Properties();
-            props.setProperty("user","postgres");
-            props.setProperty("password","root");
+            props.setProperty("user", "postgres");
+            props.setProperty("password", "root");
             Connection conn = DriverManager.getConnection(url, props);
+
+            //DBの値を論理削除
             String sql = "update showfile set remove_flag = false where file_name = ?;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, filename);
-            ResultSet rs = pstmt.executeQuery();
-            contents = filename + "　を削除しました";
-            rs.close();
+            pstmt.setString(1, fileName);
+            pstmt.executeUpdate();
+            contents = fileName + "　を削除しました";
+
             pstmt.close();
             conn.close();
 
@@ -77,6 +78,7 @@ public class FileRemoveServlet extends HttpServlet {
             contents = "miss";
         }
 
+        //値を渡してJSP画面に遷移
         request.setAttribute("contents", contents);
         RequestDispatcher rd = request.getRequestDispatcher("./ShowRegisteredFile.jsp");
         rd.forward(request, response);

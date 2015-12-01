@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * DBに登録したファイルの内容を表示するクラスです。
- * @author USER0223 awano
+ * @author USER0223 AWANO
  */
 @WebServlet(name = "ShowRegisteredFile", urlPatterns = { "/ShowRegisteredFile" })
 public class ShowRegisteredFileServlet extends HttpServlet {
@@ -39,35 +38,40 @@ public class ShowRegisteredFileServlet extends HttpServlet {
 
     /**
      * DBに登録したファイルの内容を表示するクラスです。
-     * @param filename 選択したファイルのパスが入っています。(registeredFile)
-     * @return contents 読み込んだファイルの内容が入っているリストです。
+     * @param request　表示するDBに登録されたファイルの絶対パス
+     * @param response
      * @throws ServletException 実行時に起こり得る例外
      * @throws IOException ファイル入出力時に起こり得る例外
-     * @throws ClassNotFoundException クラスが見つからなかった時に起こる例外
-     * @throws SQLException SQL実行時に起こり得る例外
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         request.setCharacterEncoding("Windows-31J");
-        String filename = request.getParameter("registeredFile");
-        String err = " ";
+        //入力フォームの値をセット
+        String fileName = request.getParameter("registeredFile");
+        //遷移後の画面に表示する値
         String contents = null;
 
         try {
+            //DBコネクション処理
             Class.forName("org.postgresql.Driver");
             String url = "jdbc:postgresql://localhost/sample";
+
             Properties props = new Properties();
-            props.setProperty("user","postgres");
-            props.setProperty("password","root");
+            props.setProperty("user", "postgres");
+            props.setProperty("password", "root");
             Connection conn = DriverManager.getConnection(url, props);
+
+            //DBの値を参照
             String sql = "select file_contents from showfile where file_name = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, filename);
+            pstmt.setString(1, fileName);
             ResultSet rs = pstmt.executeQuery();
 
+            //値のセット
             while (rs.next()) {
-                contents = rs.getString("file_contents");
+              contents = rs.getString("file_contents");
             }
+
             rs.close();
             pstmt.close();
             conn.close();
@@ -80,6 +84,7 @@ public class ShowRegisteredFileServlet extends HttpServlet {
             contents = "error";
         }
 
+        //値を渡してJSP画面に遷移
         request.setAttribute("contents", contents);
         RequestDispatcher rd = request.getRequestDispatcher("./ShowRegisteredFile.jsp");
         rd.forward(request, response);

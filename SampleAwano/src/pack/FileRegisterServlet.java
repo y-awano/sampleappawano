@@ -9,7 +9,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 読み込んだファイル内容をDBに登録するクラスです。
- * @author USER0223 awano
+ * @author USER0223 AWANO
  */
 @WebServlet(name = "FileRegister", urlPatterns = { "/FileRegister" })
 public class FileRegisterServlet extends HttpServlet {
@@ -42,60 +41,68 @@ public class FileRegisterServlet extends HttpServlet {
 
     /**
      * 読み込んだファイル内容をDBに登録するメソッドです。
-     * @param filename 入力されたファイルのパスが入っています。(registerFile)
-     * @return list 読み込んだファイルの内容が入っているリストです。
+     * @param request DBに登録するファイルの絶対パス
+     * @param response
      * @throws ServletException 実行時に起こり得る例外
      * @throws IOException ファイル入出力時に起こり得る例外
-     * @throws ClassNotFoundException クラスが見つからなかった時に起こる例外
-     * @throws FileNotFoundException 指定されたファイルが見つからなかった時に起こる例外
-     * @throws SQLException SQL実行時に起こり得る例外
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         request.setCharacterEncoding("Windows-31J");
-        String filename = request.getParameter("registerFile");
-        String line = "tes";
-        String err =" ";
+        //入力フォームの値をセット
+        String fileName = request.getParameter("registerFile");
+        //ファイルを読み込んだ結果
+        String line = null;
+        //遷移後の画面に表示する文言
+        String msg = null;
+        //DBに登録するための整形
         StringBuilder val = new StringBuilder("");
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            //ファイルの読み込みと値のセット
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
             while ((line = reader.readLine()) != null) {
                 val.append(line);
                 val.append("\n");
             }
             reader.close();
-            err = "保存に成功しました";
 
+            //DBコネクション処理
             Class.forName("org.postgresql.Driver");
             String url = "jdbc:postgresql://localhost/sample";
+
             Properties props = new Properties();
-            props.setProperty("user","postgres");
-            props.setProperty("password","root");
+            props.setProperty("user", "postgres");
+            props.setProperty("password", "root");
             Connection conn = DriverManager.getConnection(url, props);
-            String sql = "insert into showfile(file_name, file_contents) values(?,?)";
+
+            //DBに値を登録
+            String sql = "insert into showfile(file_name, file_contents) values(?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, filename);
+            pstmt.setString(1, fileName);
             pstmt.setString(2, val.toString());
             pstmt.executeUpdate();
+            msg = "保存に成功しました";
+
             pstmt.close();
             conn.close();
 
-            } catch(ClassNotFoundException e) {
-                e.printStackTrace();
-                err = "DBに接続できません";
-            } catch(FileNotFoundException e) {
-                e.printStackTrace();
-                err = "ファイルが見つかりません";
-            } catch(IOException e) {
-                e.printStackTrace();
-                err = "ファイル入出力エラーです";
-            } catch(SQLException e) {
-                e.printStackTrace();
-                err = "SQLエラーです";
-            }
+        } catch(ClassNotFoundException e) {
+            e.printStackTrace();
+            msg = "DBに接続できません";
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+            msg = "ファイルが見つかりません";
+        } catch(IOException e) {
+            e.printStackTrace();
+            msg = "ファイル入出力エラーです";
+        } catch(SQLException e) {
+            e.printStackTrace();
+            msg = "SQLエラーです";
+        }
 
-        request.setAttribute("error", err);
+        //値を渡してJSP画面に遷移
+        request.setAttribute("message", msg);
         RequestDispatcher rd = request.getRequestDispatcher("./FileRegistered.jsp");
         rd.forward(request, response);
     }

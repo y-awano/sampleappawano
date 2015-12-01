@@ -8,13 +8,13 @@ public class ConnectBean {
     /**ファイルのパス*/
     private String file;
 
-    /**ID(csv用サンプル)*/
+    /**ID(CSV用サンプル)*/
     private String id;
 
-    /**名前(csv用サンプル)*/
+    /**名前(CSV用サンプル)*/
     private String name;
 
-    /**ナンバー(csv用サンプル)*/
+    /**ナンバー(CSV用サンプル)*/
     private String number;
 
     /**
