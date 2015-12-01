@@ -38,8 +38,8 @@ public class ShowRegisteredFileServlet extends HttpServlet {
 
     /**
      * DBに登録したファイルの内容を表示するクラスです。
-     * @param request　表示するDBに登録されたファイルの絶対パス
-     * @param response
+     * @param request リクエスト情報
+     * @param response レスポンス情報
      * @throws ServletException 実行時に起こり得る例外
      * @throws IOException ファイル入出力時に起こり得る例外
      */

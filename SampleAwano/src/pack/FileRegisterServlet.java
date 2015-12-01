@@ -41,8 +41,8 @@ public class FileRegisterServlet extends HttpServlet {
 
     /**
      * 読み込んだファイル内容をDBに登録するメソッドです。
-     * @param request DBに登録するファイルの絶対パス
-     * @param response
+     * @param request リクエスト情報
+     * @param response レスポンス情報
      * @throws ServletException 実行時に起こり得る例外
      * @throws IOException ファイル入出力時に起こり得る例外
      */

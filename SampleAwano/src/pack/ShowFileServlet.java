@@ -37,8 +37,8 @@ public class ShowFileServlet extends HttpServlet {
 
     /**
      * 読み込んだファイルを表示するメソッドです。
-     * @param request　表示するファイルの絶対パス
-     * @param response
+     * @param request　リクエスト情報
+     * @param response レスポンス情報
      * @throws ServletException 実行時に起こり得る例外
      * @throws IOException ファイル入出力時に起こり得る例外
      */

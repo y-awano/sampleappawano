@@ -39,8 +39,8 @@ public class ShowCsvFileServlet extends HttpServlet {
     /**
      * 読み込んだCSVファイルを整形して表示するメソッドです。
      * 『,』を省いたCSVファイルの内容を表示します。
-     * @param request　表示するCSVファイルの絶対パス
-     * @param response
+     * @param request リクエスト情報
+     * @param response　レスポンス情報
      * @throws ServletException 実行時に起こり得る例外
      * @throws IOException ファイル入出力時に起こり得る例外
      */
