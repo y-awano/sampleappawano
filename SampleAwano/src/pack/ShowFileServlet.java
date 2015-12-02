@@ -1,5 +1,6 @@
 package pack;
 
+import static pack.Const.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -43,7 +44,6 @@ public class ShowFileServlet extends HttpServlet {
      * @throws IOException ファイル入出力時に起こり得る例外
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         request.setCharacterEncoding("Windows-31J");
         //入力フォームの値をセット
         String fileName = request.getParameter("showFile");
@@ -68,11 +68,12 @@ public class ShowFileServlet extends HttpServlet {
         } catch(FileNotFoundException e) {
             ConnectBean cbean = new ConnectBean();
             e.printStackTrace();
-            line = fileName + "が見つかりません。";
+            line = fileName + FILE_NOT_FOUND_ERROR_MESSAGE;
             cbean.setFile(line);
             list.add(cbean);
         } catch(IOException e) {
             e.printStackTrace();
+            line = IO_ERROR_MESSAGE;
         }
 
         //値を渡してJSP画面に遷移

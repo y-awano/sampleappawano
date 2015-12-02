@@ -1,5 +1,6 @@
 package pack;
 
+import static pack.Const.*;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -45,7 +46,6 @@ public class ShowCsvFileServlet extends HttpServlet {
      * @throws IOException ファイル入出力時に起こり得る例外
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         request.setCharacterEncoding("Windows-31J");
         //入力フォームの値をセット
         String csvFileName = request.getParameter("showCsvFile");
@@ -75,13 +75,13 @@ public class ShowCsvFileServlet extends HttpServlet {
         } catch(FileNotFoundException e) {
             e.printStackTrace();
             ConnectBean cbean = new ConnectBean();
-            line = csvFileName + "(csvファイル)が見つかりません";
+            line = csvFileName + FILE_NOT_FOUND_ERROR_MESSAGE;
             cbean.setFile(line);
             list.add(cbean);
         } catch(ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
             ConnectBean cbean = new ConnectBean();
-            line = csvFileName + "3項目のcsvファイルを指定してください";
+            line = csvFileName + ARRAY_INDEX_OUT_OF_BOUNDS_ERROR_MESSAGE;
             cbean.setFile(line);
             list.add(cbean);
         } catch(IOException e) {

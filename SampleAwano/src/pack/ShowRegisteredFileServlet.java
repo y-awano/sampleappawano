@@ -1,12 +1,11 @@
 package pack;
 
+import static pack.Const.*;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,7 +43,6 @@ public class ShowRegisteredFileServlet extends HttpServlet {
      * @throws IOException ファイル入出力時に起こり得る例外
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         request.setCharacterEncoding("Windows-31J");
         //入力フォームの値をセット
         String fileName = request.getParameter("registeredFile");
@@ -52,17 +50,11 @@ public class ShowRegisteredFileServlet extends HttpServlet {
         String contents = null;
 
         try {
-            //DBコネクション処理
-            Class.forName("org.postgresql.Driver");
-            String url = "jdbc:postgresql://localhost/sample";
-
-            Properties props = new Properties();
-            props.setProperty("user", "postgres");
-            props.setProperty("password", "root");
-            Connection conn = DriverManager.getConnection(url, props);
+            //データベースに接続
+            Connection conn = DBConnection.getConnection();
 
             //DBの値を参照
-            String sql = "select file_contents from showfile where file_name = ?";
+            String sql = SELECT_FILE_CONTENT_SQL;
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, fileName);
             ResultSet rs = pstmt.executeQuery();
@@ -78,10 +70,12 @@ public class ShowRegisteredFileServlet extends HttpServlet {
 
         } catch(ClassNotFoundException e) {
             e.printStackTrace();
-            contents = "DBに接続できません";
+            contents = CLASS_NOT_FOUND_ERROR_MESSAGE;
         } catch(SQLException e) {
             e.printStackTrace();
-            contents = "error";
+            contents = SQL_ERROR_MESSAGE;
+        } catch(Exception e) {
+            e.printStackTrace();
         }
 
         //値を渡してJSP画面に遷移

@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=Windows-31J"%>
+<%@ page import="pack.DBConnection.*"%>
+<%@ page import="static pack.Const.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="pack.*"%>
 <%@ page import="java.io.IOException"%>
@@ -45,18 +47,12 @@
 Connection conn = null;
 Statement st = null;
   try {
-  //DBコネクション処理
-    Class.forName("org.postgresql.Driver");
-    String url = "jdbc:postgresql://localhost/sample";
-
-    Properties props = new Properties();
-    props.setProperty("user", "postgres");
-    props.setProperty("password", "root");
-    conn = DriverManager.getConnection(url, props);
+    //データベースに接続
+    conn = DBConnection.getConnection();
 
     //プルダウンに表示する値の参照
     st = conn.createStatement();
-    String sql = "select id, file_name from showfile where remove_flag = 'true' order by id asc";
+    String sql = SELECT_FILE_NAME_SQL;
     ResultSet rs = st.executeQuery(sql);
 
     // <option> の後ろにsqlの結果を出力
@@ -74,7 +70,7 @@ Statement st = null;
   } catch(SQLException e) {
     e.printStackTrace();
   } finally {
-      // 保険用
+  // 保険用
   if (st !=null && !st.isClosed()) {
     st.close();
   }
@@ -92,18 +88,12 @@ Statement st = null;
 <select name="removeFile">
 <%
   try {
-  //DBコネクション処理
-    Class.forName("org.postgresql.Driver");
-    String url = "jdbc:postgresql://localhost/sample";
-
-    Properties props = new Properties();
-    props.setProperty("user", "postgres");
-    props.setProperty("password", "root");
-    conn = DriverManager.getConnection(url, props);
+    //データベースに接続
+    conn = DBConnection.getConnection();
 
     //プルダウンに表示する値の参照
     st = conn.createStatement();
-    String sql = "select id, file_name from showfile where remove_flag = 'true' order by id asc";
+    String sql = SELECT_FILE_NAME_SQL;
     ResultSet rs = st.executeQuery(sql);
 
     // <option> の後ろにsqlの結果を出力
@@ -121,7 +111,7 @@ Statement st = null;
   } catch(SQLException e) {
     e.printStackTrace();
   } finally {
-    // 保険用
+  // 保険用
   if (st !=null && !st.isClosed()) {
     st.close();
   }

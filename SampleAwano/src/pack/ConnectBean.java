@@ -1,7 +1,7 @@
 package pack;
 
 /**
- * ファイル入出力webアプリ(サンプル)用bean
+ * ファイル入出力サンプルwebアプリ用bean
  * @author AWANO
  */
 public class ConnectBean {

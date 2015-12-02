@@ -1,14 +1,13 @@
 package pack;
 
+import static pack.Const.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Properties;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,7 +46,6 @@ public class FileRegisterServlet extends HttpServlet {
      * @throws IOException ファイル入出力時に起こり得る例外
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         request.setCharacterEncoding("Windows-31J");
         //入力フォームの値をセット
         String fileName = request.getParameter("registerFile");
@@ -67,38 +65,34 @@ public class FileRegisterServlet extends HttpServlet {
             }
             reader.close();
 
-            //DBコネクション処理
-            Class.forName("org.postgresql.Driver");
-            String url = "jdbc:postgresql://localhost/sample";
-
-            Properties props = new Properties();
-            props.setProperty("user", "postgres");
-            props.setProperty("password", "root");
-            Connection conn = DriverManager.getConnection(url, props);
+            //データベースに接続
+            Connection conn = DBConnection.getConnection();
 
             //DBに値を登録
-            String sql = "insert into showfile(file_name, file_contents) values(?, ?)";
+            String sql = INSERT_FILE_SQL;
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, fileName);
             pstmt.setString(2, val.toString());
             pstmt.executeUpdate();
-            msg = "保存に成功しました";
+            msg = INSERT_SUCCESS_MESSAGE;
 
             pstmt.close();
             conn.close();
 
         } catch(ClassNotFoundException e) {
             e.printStackTrace();
-            msg = "DBに接続できません";
+            msg = CLASS_NOT_FOUND_ERROR_MESSAGE;
         } catch(FileNotFoundException e) {
             e.printStackTrace();
-            msg = "ファイルが見つかりません";
+            msg = FILE_NOT_FOUND_ERROR_MESSAGE;
         } catch(IOException e) {
             e.printStackTrace();
-            msg = "ファイル入出力エラーです";
+            msg = IO_ERROR_MESSAGE;
         } catch(SQLException e) {
             e.printStackTrace();
-            msg = "SQLエラーです";
+            msg = SQL_ERROR_MESSAGE;
+        } catch(Exception e) {
+            e.printStackTrace();
         }
 
         //値を渡してJSP画面に遷移

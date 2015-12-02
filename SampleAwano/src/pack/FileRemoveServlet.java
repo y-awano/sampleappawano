@@ -1,11 +1,10 @@
 package pack;
 
+import static pack.Const.*;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Properties;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -51,31 +50,27 @@ public class FileRemoveServlet extends HttpServlet {
         String contents = null;
 
         try {
-            //DBコネクション処理
-            Class.forName("org.postgresql.Driver");
-            String url = "jdbc:postgresql://localhost/sample";
-
-            Properties props = new Properties();
-            props.setProperty("user", "postgres");
-            props.setProperty("password", "root");
-            Connection conn = DriverManager.getConnection(url, props);
+            //データベースに接続
+            Connection conn = DBConnection.getConnection();
 
             //DBの値を論理削除
-            String sql = "update showfile set remove_flag = false where file_name = ?;";
+            String sql = ROGICAL_DELETE_SQL;
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, fileName);
             pstmt.executeUpdate();
-            contents = fileName + "　を削除しました";
+            contents = fileName + DELETE_SUCCESS_MESSAGE;
 
             pstmt.close();
             conn.close();
 
         } catch(ClassNotFoundException e) {
             e.printStackTrace();
-            contents = "DBに接続できません";
+            contents = CLASS_NOT_FOUND_ERROR_MESSAGE;
         } catch(SQLException e) {
             e.printStackTrace();
-            contents = "miss";
+            contents = SQL_ERROR_MESSAGE;
+        } catch(Exception e) {
+            e.printStackTrace();
         }
 
         //値を渡してJSP画面に遷移
