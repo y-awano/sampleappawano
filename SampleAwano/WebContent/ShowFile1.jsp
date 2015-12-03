@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=Windows-31J"%>
-<%@ page import="pack.DBConnection.*"%>
+<%@ page import="pack.DBConnection"%>
 <%@ page import="static pack.Const.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="pack.*"%>

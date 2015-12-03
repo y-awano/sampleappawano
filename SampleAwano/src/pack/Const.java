@@ -7,7 +7,7 @@ package pack;
 public class Const {
     //DBコネクション定数
     public static final String POSTGRE_DRIVER = "org.postgresql.Driver";
-    public static final String POSTGRE_URL = "jdbc:postgresql://localhost/sample";
+    public static final String POSTGRE_URL = "jdbc:postgresql://localhost/postgres";
     public static final String POSTGRE_USER = "postgres";
     public static final String POSTGRE_PASSWORD = "root";
 
@@ -17,7 +17,7 @@ public class Const {
     //ファイル内容登録
     public static final String INSERT_FILE_SQL = "insert into showfile(file_name, file_contents) values(?, ?)";
     //論理削除
-    public static final String ROGICAL_DELETE_SQL = "update showfile set remove_flag = false where file_name = ?";
+    public static final String ROGICAL_DELETE_SQL = "update showfile set(remove_flag, remove_time) = (false, now()) where file_name = ?";
     //プルダウンに表示する値を参照
     public static final String SELECT_FILE_NAME_SQL = "select id, file_name from showfile where remove_flag = 'true' order by id asc";
 
