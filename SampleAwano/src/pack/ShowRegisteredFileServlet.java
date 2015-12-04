@@ -22,20 +22,6 @@ public class ShowRegisteredFileServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ShowRegisteredFileServlet() {
-        super();
-    }
-
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.getWriter().append("Served at: ").append(request.getContextPath());
-    }
-
-    /**
      * DBに登録したファイルの内容を表示するクラスです。
      * @param request リクエスト情報
      * @param response レスポンス情報

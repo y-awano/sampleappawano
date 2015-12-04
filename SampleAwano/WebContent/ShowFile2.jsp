@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=Windows-31J"%>
-<%@ page import="java.util.*" %>
+<%@ page import="java.util.*"%>
 <%@ page import="pack.*"%>
 <%
-request.setCharacterEncoding("Shift_JIS");
-LinkedList<ConnectBean> msgList =  (LinkedList<ConnectBean>)session.getAttribute("list");
+  request.setCharacterEncoding("Shift_JIS");
+  LinkedList<ConnectBean> msgList = (LinkedList<ConnectBean>) session.getAttribute("list");
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -12,19 +12,21 @@ LinkedList<ConnectBean> msgList =  (LinkedList<ConnectBean>)session.getAttribute
 <title>ファイル表示画面</title>
 </head>
 <body>
-<br>
-<table>
-<%
-for (ConnectBean temp: msgList) {
-%>
-  <tr>
-    <td>
-      <% out.println(temp.getFile());%>
-    </td>
-  </tr>
-<%
-}
-%>
-</table>
+  <table>
+    <%
+      for (ConnectBean temp : msgList) {
+    %>
+    <tr>
+      <td>
+        <%
+          out.println(temp.getFile());
+        %>
+      </td>
+    </tr>
+    <%
+      }
+    %>
+  </table>
+  <a href="ShowFile1.jsp"> back </a>
 </body>
 </html>

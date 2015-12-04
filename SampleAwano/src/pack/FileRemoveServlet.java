@@ -21,20 +21,6 @@ public class FileRemoveServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public FileRemoveServlet() {
-        super();
-    }
-
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.getWriter().append("Served at: ").append(request.getContextPath());
-    }
-
-    /**
      * DBに登録した内容を論理削除するメソッドです。
      * @param request リクエスト情報
      * @param response レスポンス情報
@@ -42,7 +28,6 @@ public class FileRemoveServlet extends HttpServlet {
      * @throws IOException ファイル入出力時に起こり得る例外
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         request.setCharacterEncoding("Windows-31J");
         //入力フォームの値をセット
         String fileName = request.getParameter("removeFile");
